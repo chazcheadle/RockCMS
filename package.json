@@ -4,7 +4,9 @@
   "description": "NodeJS CMS",
   "main": "app.js",
   "scripts": {
-    "start": "babel-node app.js --presets es2015,stage-2"
+    "client": "babel-node server/server.js",
+    "server": "babel-node app.js",
+    "dev": "concurrently --kill-others \"npm run client\" \"npm run server\""
   },
   "repository": {
     "type": "git",
@@ -22,9 +24,12 @@
     "babel-preset-stage-2": "^6.24.1"
   },
   "dependencies": {
+    "concurrently": "^3.6.0",
     "eslint": "^5.2.0",
     "eslint-config-airbnb-base": "^13.0.0",
     "eslint-plugin-import": "^2.13.0",
-    "express": "^4.16.3"
+    "express": "^4.16.3",
+    "node-fetch": "^2.2.0",
+    "nodemon": "^1.18.3"
   }
 }

@@ -1,0 +1,1124 @@
+query articleList($filters: String, $query: String) {
+  search(filters: $filters, query: $query, size: 24) {
+    pagination {
+      page
+      totalPages
+    }
+    items {
+      ... on Article {
+        id
+        headline {
+          primary
+        }
+        primaryImage {
+          id
+          url {
+            primary
+            short
+            slug
+          }
+        }
+        teaseImage {
+          id
+          url {
+            primary
+            short
+            slug
+          }
+        }
+        type
+        dateCreated
+        datePublished
+        dateModified
+        publisher {
+          name
+        }
+        url {
+          primary
+          short
+          slug
+        }
+        authors {
+          type
+          authorType
+          person {
+            id
+            name
+          }
+        }
+        taxonomy {
+          primaryVertical {
+            id
+            taxonomyType
+            name
+          }
+          primarySubvertical {
+            id
+            taxonomyType
+            name
+          }
+          primarySection {
+            id
+            taxonomyType
+            name
+          }
+          primaryTopic {
+            id
+            taxonomyType
+            name
+          }
+          topics {
+            id
+            name
+          }
+        }
+      }
+    }
+  }
+}
+
+query slideshowList($filters: String, $query: String) {
+  search(filters: $filters, query: $query, size: 24) {
+    pagination {
+      page
+      totalPages
+    }
+    items {
+      ... on Slideshow {
+        id
+        headline {
+          primary
+        }
+        primaryImage {
+          id
+          url {
+            primary
+            short
+            slug
+          }
+        }
+        type
+        dateCreated
+        datePublished
+        publisher {
+          name
+        }
+        url {
+          primary
+          short
+          slug
+        }
+      }
+    }
+  }
+}
+
+query videoSearch($filters: String, $size: Int, $page: Int) {
+  search(filters: $filters, size: $size, page: $page) {
+    pagination {
+      page
+      size
+      totalPages
+      totalItems
+    }
+    items {
+      ... on Video {
+        type
+        url {
+          primary
+        }
+        headline {
+          primary
+        }
+        description {
+          primary
+        }
+        teaseImage {
+          url {
+            primary
+          }
+        }
+        taxonomy {
+          primarySection {
+            name
+          }
+        }
+      }
+    }
+  }
+}
+
+query getTaxonomy($filters: String) {
+  search(filters: $filters, size:100, sort: "name:asc") {
+    items {
+      ... on Taxonomy {
+        id
+        name
+      }
+    }
+  }
+}
+
+query getFeaturedLinkInfo($filters:String) {
+  search(filters: $filters) {
+    items {
+      ... on Article {
+        type
+        url {
+          primary
+        }
+        headline {
+          primary
+        }
+        description {
+          primary
+        }
+        teaseImage {
+          url {
+            primary
+          }
+        }
+        taxonomy {
+          primarySection {
+            name
+          }
+        }
+      }
+      ... on Video {
+        type
+        url {
+          primary
+        }
+        headline {
+          primary
+        }
+        description {
+          primary
+        }
+        teaseImage {
+          url {
+            primary
+          }
+        }
+        taxonomy {
+          primarySection {
+            name
+          }
+        }
+      }
+      ... on Slideshow {
+        type
+        url {
+          primary
+        }
+        headline {
+          primary
+        }
+        description {
+          primary
+        }
+        teaseImage {
+          url {
+            primary
+          }
+        }
+        taxonomy {
+          primarySection {
+            name
+          }
+        }
+      }
+      ... on Recipe {
+        type
+        url {
+          primary
+        }
+        headline {
+          primary
+        }
+        description {
+          primary
+        }
+        teaseImage {
+          url {
+            primary
+          }
+        }
+        taxonomy {
+          primarySection {
+            name
+          }
+        }
+      }
+    }
+  }
+}
+
+
+
+
+############################
+######### FRAGMENTS ########
+############################
+
+fragment packagesBody on Package {
+  id
+  name
+  type
+  zone
+  metadata
+  autofill {
+    type
+    value
+  }
+  items {
+    type
+    item {
+      ... on Video {
+        ...videoBody
+      }
+      ... on Slideshow {
+        datePublished
+        dateModified
+        dateCreated
+        nativeAd
+        slides {
+          image {
+            altText
+            caption
+            url {
+              primary
+            }
+          }
+        }
+      }
+      ... on Article {
+        breakingNews
+        datePublished
+        dateModified
+        dateCreated
+        nativeAd
+        taxonomy {
+          primaryVertical {
+            name
+          }
+        }
+        source {
+          organization {
+            name
+            externalUrl
+          }
+        }
+        authors {
+          featuredAuthor {
+            isFeaturedAuthor
+          }
+          person {
+            name
+            primaryImage {
+              url {
+                primary
+              }
+            }
+          }
+        }
+      }
+    }
+    id
+    computedValues {
+      teaseImage {
+        url {
+          primary
+        }
+        source {
+          name
+        }
+        authors {
+          name
+        }
+        altText
+        caption
+      }
+      headline
+      dek
+      eyebrow
+      url
+    }
+    metadata
+  }
+}
+
+fragment imageBody on Image {
+  id
+  headline {
+    primary
+    tease
+    seo
+    social
+  }
+  caption
+  altText
+  url {
+    primary
+  }
+  encodingFormat
+  height
+  width
+  authors {
+    name
+  }
+  source {
+    name
+    copyright
+  }
+  graphicContent
+}
+
+fragment imageTease on Image {
+  id
+  headline {
+    primary
+  }
+  altText
+  caption
+  url {
+    primary
+  }
+  source {
+    name
+  }
+  authors {
+    name
+  }
+  height
+  width
+  graphicContent
+}
+
+fragment taxBody on Taxonomy {
+  type
+  id
+  name
+  description {
+    primary
+  }
+  slug
+  url {
+    primary
+  }
+  dateCreated
+  dateModified
+  children {
+    id
+    slug
+    name
+    type
+  }
+}
+
+fragment videoBody on Video {
+  id
+  taxonomy {
+    primaryVertical {
+      name
+    }
+    primarySection {
+      name
+    }
+    primaryTopic {
+      name
+    }
+  }
+  duration
+  dateCreated
+  datePublished
+  dateModified
+  dateBroadcast
+  nativeAd
+  mpxMetadata {
+    id
+    guid
+    accountId
+    accountName
+  }
+  source {
+    name
+  }
+  videoType
+  sentiment
+  headline {
+    primary
+    tease
+    seo
+    social
+  }
+  description {
+    primary
+    seo
+  }
+  playable
+  url {
+    primary
+    slug
+    short
+  }
+  hasCaptions
+  closedCaptioning {
+    smptett
+    srt
+    webvtt
+  }
+  videoAssets {
+    format
+    assetType
+    publicUrl
+    height
+    width
+    assetDuration
+    bitrate
+  }
+  primaryImage {
+    ...imageTease
+  }
+  teaseImage {
+    ...imageTease
+  }
+}
+
+fragment videoTease on Video {
+  type
+  id
+  mpxMetadata {
+    id
+    guid
+  }
+  datePublished
+  dateCreated
+  dateModified
+  primaryImage {
+    ...imageTease
+  }
+  teaseImage {
+    ...imageTease
+  }
+  url {
+    primary
+    slug
+    short
+  }
+  duration
+  nativeAd
+  videoType
+  sentiment
+  headline {
+    primary
+    tease
+    social
+  }
+  description {
+    primary
+  }
+  source {
+    name
+  }
+  taxonomy {
+    primaryVertical {
+      name
+    }
+    primarySection {
+      name
+    }
+    primaryTopic {
+      name
+    }
+  }
+  videoAssets {
+    format
+    assetType
+    publicUrl
+    height
+    width
+    assetDuration
+    bitrate
+  }
+}
+
+fragment productList on EmbeddedProductList {
+  type
+  productList {
+    id
+    type
+    products {
+      id
+      type
+      name
+      sponsoredBy
+      teaseImage {
+        id
+        headline {
+          primary
+        }
+        altText
+        caption
+        url {
+          primary
+        }
+        height
+        width
+        graphicContent
+      }
+      offers {
+        externalUrl
+        price
+        priceCurrency
+        seller {
+          id
+          type
+          name
+        }
+      }
+    }
+  }
+}
+
+fragment articleBody on Article {
+  type
+  id
+  subType
+  dek
+  primaryMedia {
+    ...on EmbeddedImage {
+      type
+      presentation {
+        alignment
+        size
+        style
+      }
+      image {
+        ...imageBody
+      }
+    }
+    ...on EmbeddedVideo {
+      type
+      presentation {
+        alignment
+        size
+        style
+      }
+      video {
+        ...videoBody
+        associatedVideoPlaylist {
+          headline {
+            primary
+            tease
+          }
+          videos(limit: 20) {
+            ...videoTease
+          }
+        }
+      }
+    }
+  }
+  headline {
+    primary
+    seo
+    social
+  }
+  description {
+    primary
+    seo
+  }
+  url {
+    primary
+    short
+  }
+  taxonomy {
+    primarySection {
+      ...taxBody
+    }
+    primaryTopic {
+      ...taxBody
+    }
+    primarySubtopic {
+      ...taxBody
+    }
+    primaryVertical {
+      ...taxBody
+    }
+    primarySubvertical {
+      ...taxBody
+    }
+    primaryChannel {
+      ...taxBody
+    }
+    channels {
+      ...taxBody
+    }
+    topics {
+      ...taxBody
+    }
+    sections {
+      ...taxBody
+    }
+    subverticals {
+      ...taxBody
+    }
+    primaryLabel {
+      ...taxBody
+    }
+    primaryShow {
+      ...taxBody
+    }
+    series {
+      ...taxBody
+    }
+  }
+  primaryImage {
+    ...imageBody
+  }
+  teaseImage {
+    ...imageBody
+  }
+  socialImage {
+    ...imageBody
+  }
+  authors {
+    type
+    authorType
+    featuredAuthor {
+      isFeaturedAuthor
+    }
+    person {
+      id
+      type
+      name
+      email
+      primaryImage {
+        id
+        url {
+          primary
+        }
+        altText
+        height
+        width
+      }
+      bio {
+        ...on Markup {
+          type
+          element
+          html
+        }
+        ...on EmbeddedImage {
+          image {
+            ...imageBody
+          }
+        }
+      }
+      socialMediaProfiles {
+        gPlus
+        twitter
+        facebook
+        instagram
+      }
+    }
+  }
+  adsEnabled
+  ecommerceEnabled
+  sponsoredBy
+  hidden
+  nativeAd
+  breakingNews
+  body {
+    ...on Markup {
+      type
+      element
+      html
+    }
+    ...on EmbeddedRecipe {
+      type
+      embedType
+      recipe {
+        type
+        headline {
+          primary
+        }
+        url {
+          primary
+        }
+        teaseImage {
+          url {
+            primary
+          }
+          source {
+            name
+          }
+          authors {
+            name
+          }
+        }
+        primaryImage {
+          url {
+            primary
+          }
+        }
+        authors {
+          name
+        }
+        dateCreated
+        datePublished
+        prepTime
+        servingSize
+        cookTime
+        totalTime
+      }
+    }
+    ... on EmbeddedProduct {
+      type
+      presentation {
+        alignment
+      }
+      product {
+        id
+        name
+        teaseImage {
+          url {
+            primary
+          }
+        }
+        offers {
+          price
+          externalUrl
+          seller {
+            name
+          }
+        }
+      }
+    }
+    ...on EmbeddedImage {
+      presentation {
+        size
+        style
+        alignment
+      }
+      type
+      image {
+        ...imageBody
+      }
+    }
+    ...on EmbeddedVideo {
+      type
+      presentation {
+        size
+        style
+        alignment
+      }
+      video {
+        ...videoBody
+        associatedVideoPlaylist {
+          headline {
+            primary
+          }
+          videos(limit: 20) {
+            ...videoTease
+          }
+        }
+      }
+    }
+    ...on EmbeddedWidget {
+      type
+      presentation {
+        alignment
+        style
+        size
+      }
+      widget {
+        id
+        type
+        name
+        baseline
+        fallbackUrl
+        properties
+        publisher {
+          name
+        }
+      }
+    }
+    ... on EmbeddedSlideshow {
+      type
+      slideshow {
+        id
+        url {
+          primary
+        }
+        headline {
+          primary
+        }
+        teaseImage {
+          url {
+            primary
+          }
+          source {
+            name
+          }
+          altText
+          caption
+        }
+        slides {
+          source {
+            name
+          }
+        }
+        description {
+          primary
+        }
+      }
+    }
+    ...on EmbeddedVideoPlaylist {
+      type
+    }
+    ...on EmbeddedProductList{
+      ...productList
+    }
+  }
+  datePublished
+  dateModified
+  dateCreated
+  publisher {
+    name
+  }
+  source {
+    organization {
+      name
+      copyright
+      externalUrl
+      primaryImage {
+        ...imageBody
+      }
+    }
+  }
+}
+
+############################
+########## QUERIES #########
+############################
+
+query Curation($vertical: VerticalType, $id: ID, $route: String) {
+  curation(vertical: $vertical, pageRoute: $route, id: $id) {
+    id
+    seoTitle
+    seoDescription
+    layouts {
+      id
+      type
+      packages {
+        ...packagesBody
+      }
+    }
+  }
+}
+
+query Article($id: ID!) {
+  article(id: $id) {
+    ...articleBody
+  }
+}
+
+query Video($id: ID!, $vertical: VerticalType!) {
+  videoPlaylists(vertical: $vertical) {
+    id
+    headline {
+      primary
+    }
+    videos {
+      ...videoTease
+    }
+  }
+  video(id: $id) {
+    id
+    type
+    mpxMetadata {
+      id
+      guid
+			accountId
+      accountName
+    }
+    headline {
+      primary
+      tease
+      seo
+      social
+    }
+    description {
+      primary
+      seo
+    }
+    dateCreated
+    datePublished
+    dateModified
+    dateAvailable
+    dateBroadcast
+    playable
+    source {
+      name
+    }
+    url {
+      primary
+      slug
+      short
+    }
+    primaryImage {
+       ...imageTease
+     }
+    teaseImage {
+       ...imageTease
+     }
+    duration
+    associatedVideoPlaylist {
+      id
+      headline {
+        primary
+      }
+      videos(limit: 20) {
+        ...videoTease
+      }
+    }
+    videoType
+    sentiment
+    nativeAd
+    hasCaptions
+    closedCaptioning {
+      smptett
+      srt
+      webvtt
+    }
+    videoAssets {
+      assetType
+      format
+      publicUrl
+      height
+      width
+      assetDuration
+      bitrate
+    }
+    taxonomy {
+    	primaryVertical {
+      	...taxBody
+    	}
+    	primarySection {
+      	...taxBody
+    	}
+    	primaryTopic {
+      	...taxBody
+    	}
+      primaryChannel {
+        ...taxBody
+      }
+      channels {
+        ...taxBody
+      }
+    	topics {
+      	...taxBody
+    	}
+    	sections {
+      	...taxBody
+    	}
+    }
+  }
+}
+
+query Slideshow($id: ID!) {
+  slideshow(id: $id) {
+    id
+    headline {
+      primary
+      tease
+      seo
+      social
+    }
+    primaryImage {
+      ...imageTease
+    }
+    teaseImage {
+      ...imageTease
+    }
+    description {
+      primary
+      seo
+    }
+    dateCreated
+    datePublished
+    dateModified
+    url {
+      primary
+      slug
+      short
+    }
+    breakingNews
+    hidden
+    nativeAd
+    adsEnabled
+    totalSlides
+    slides {
+      headline {
+        primary
+      }
+      authors {
+        name
+      }
+      source {
+        name
+        copyright
+      }
+      caption {
+        type
+        element
+        html
+      }
+      image {
+        ...imageTease
+      }
+    }
+    taxonomy {
+      primarySection {
+        ...taxBody
+      }
+      primaryTopic {
+        ...taxBody
+      }
+      primaryVertical {
+        ...taxBody
+      }
+      primarySubvertical {
+        ...taxBody
+      }
+      primaryChannel {
+        ...taxBody
+      }
+      channels {
+        ...taxBody
+      }
+      topics {
+        ...taxBody
+      }
+      sections {
+        ...taxBody
+      }
+      subverticals {
+        ...taxBody
+      }
+    }
+
+  }
+}
+
+query Playlist($id: ID!) {
+  videoPlaylist(id: $id) {
+    id
+    headline {
+      primary
+    }
+    videos {
+      ...videoTease
+    }
+  }
+}
