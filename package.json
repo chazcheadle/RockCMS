@@ -24,7 +24,8 @@
     "babel-preset-stage-2": "^6.24.1"
   },
   "dependencies": {
-    "concurrently": "^3.6.0",
+    "concurrently": "^3.6.1",
+    "dotenv": "^6.0.0",
     "eslint": "^5.2.0",
     "eslint-config-airbnb-base": "^13.0.0",
     "eslint-plugin-import": "^2.13.0",

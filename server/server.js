@@ -1,4 +1,5 @@
 import Express from 'express';
+require('dotenv').config()
 
 const { API_PORT } = process.env;
 
