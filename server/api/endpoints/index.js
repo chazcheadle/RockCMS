@@ -1,8 +1,8 @@
 // Setup API endpoints.
-import VideoSearch from './videoSearch';
-import Taxonomy from './taxonomy';
+import video from './video';
+import taxonomy from './taxonomy';
 
 module.exports = {
-  VideoSearch,
-  Taxonomy,
+  video,
+  taxonomy,
 };

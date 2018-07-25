@@ -4,7 +4,7 @@ import api from '../api';
 
 const router = new Express.Router();
 
-router.get('/videos', async (req, res) => {
+router.get('/video', async (req, res) => {
   const publisher = req.query.publisher ? req.query.publisher : undefined;
   const page = parseInt(req.query.page, 10) ? req.query.page : undefined;
   const size = parseInt(req.query.size, 10) ? req.query.size : undefined;

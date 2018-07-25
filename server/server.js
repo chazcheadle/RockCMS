@@ -9,8 +9,8 @@ const app = new Express();
 // Load endpoint routes.
 const endpoints = require('./api/endpoints');
 
-app.use('/api', endpoints.VideoSearch);
-app.use('/api', endpoints.Taxonomy);
+app.use('/api', endpoints.video);
+app.use('/api', endpoints.taxonomy);
 
 app.get('/api', (req, res) => res.send('API Ok.'));
 

@@ -15,7 +15,7 @@ async function api(options) {
 
   // Format filter properties.
   // If filters are present iterate through them and construct a 'filters' string.
-  let filters = '';
+  let filters;
   if (typeof options.filters !== 'undefined') {
     const items = [];
     Object.keys(options.filters).forEach((key) => {
@@ -48,7 +48,6 @@ async function api(options) {
     operationName: op,
     variables,
   });
-
   let response;
   let responseJSON;
   try {

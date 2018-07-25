@@ -181,6 +181,28 @@ query getTaxonomy ($filters: String, $size: Int, $page: Int) {
   }
 }
 
+query getTaxonomyTerm ($id: ID) {
+  taxonomy(id: $id) {
+    type
+    id
+    name
+    description {
+      primary
+    }
+    slug
+    url {
+      primary
+    }
+    dateCreated
+    dateModified
+    children {
+      id
+      slug
+      name
+      type
+    }
+  }
+}
 
 query getFeaturedLinkInfo($filters:String) {
   search(filters: $filters) {
