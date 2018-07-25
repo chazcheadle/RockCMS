@@ -1,5 +1,6 @@
 import Express from 'express';
-require('dotenv').config()
+
+require('dotenv').config();
 
 const { API_PORT } = process.env;
 
@@ -9,6 +10,7 @@ const app = new Express();
 const endpoints = require('./api/endpoints');
 
 app.use('/api', endpoints.VideoSearch);
+app.use('/api', endpoints.Taxonomy);
 
 app.get('/api', (req, res) => res.send('API Ok.'));
 

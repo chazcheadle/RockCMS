@@ -148,16 +148,39 @@ query videoSearch($filters: String, $size: Int, $page: Int) {
   }
 }
 
-query getTaxonomy($filters: String) {
-  search(filters: $filters, size:100, sort: "name:asc") {
+query getTaxonomy ($filters: String, $size: Int, $page: Int) {
+  search(filters: $filters, size: $size, page: $page) {
+    pagination {
+      page
+      size
+      totalItems
+      totalPages
+    }
     items {
       ... on Taxonomy {
+        type
         id
         name
+        description {
+          primary
+        }
+        slug
+        url {
+          primary
+        }
+        dateCreated
+        dateModified
+        children {
+          id
+          slug
+          name
+          type
+        }
       }
     }
   }
 }
+
 
 query getFeaturedLinkInfo($filters:String) {
   search(filters: $filters) {
